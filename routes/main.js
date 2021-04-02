@@ -1,17 +1,36 @@
 const express=require('express')
 const axios = require('axios')
 const router =express.Router()
-
+var {parseString}=require('xml2js')
 
 router.get('/',(req,res,next)=>{
  
     res.render('index')
 })
-// router.get('/feed',(req,res,next)=>{
+router.get('/feed',async(req,res,next)=>{
+    const url = req.query.url
+
+    const {data}= await axios({
+        url,
+        method:'get'
+    })
+
+    parseString(data,(err,json)=>{
+        if(err){
+            return
+        }
+        const {rss}=json
+        const {channel}=rss
+        const payload=channel[0]
+        res.json(payload)
+    })
+
+    res.send(data)
 // res.json({
-//     data:'this is the feed endpoint'
+//     data:'this is the feed endpoint',
+//     url
 // })
-// })
+})
 router.get('/search',async (req,res,next)=>{
     
     const url ='http://itunes.apple.com/search?term=sports&country=US&media=podcast'

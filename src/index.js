@@ -65,6 +65,32 @@ const selectPodcast=(podcast,event)=>{
 
 useEffect(()=>{
 console.log('SELECTED PODCAST CHANGED!'+JSON.stringify(selectedPodcast))
+if(!selectedPodcast)
+return
+
+const url=`/feed?url=${selectedPodcast.feed}`
+axios({
+    url,
+    method:'get'
+
+}).then(({data})=>{
+    console.log('FEED'+JSON.stringify(data))
+    const{item}=data
+    const tracks=item.map((t,index)=>{
+return{
+    id:index,
+    title:t.title[0],
+    image:selectedPodcast.image,
+    trackUrl:t.enclosure[0]['$'].url
+}
+    })
+    setEpisodes(tracks)
+})
+
+
+.catch(err=>{
+    
+})
 },[selectedPodcast])
     return (
         <div className="site-wrap">

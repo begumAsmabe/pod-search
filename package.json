@@ -20,7 +20,8 @@
     "react-dom": "^17.0.1",
     "turbo-cli": "^0.39.5",
     "turbo360": "^1.8.69",
-    "vertex360": "^0.30.39"
+    "vertex360": "^0.30.39",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
